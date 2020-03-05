@@ -44,8 +44,12 @@ const addNewVisitor = async (name, age, date, time, assistant, comment) => {
           'INSERT INTO VISITORS(visitor_name,visitors_age,date_of_visit,time_of_visit,assistant_name,comments) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
             [name,age,date,time,assistant,comment]       
       )
+
+      
+
        console.log(query.rows)
        console.log('data saved')
+       return query.rows;
        
     }catch(e) {
         console.log(e);
@@ -57,11 +61,12 @@ const listVisitor = async () => {
     try{
        const query = await pool.query(
           `
-            SELECT ID , visitor_name FROM VISITORS;`
+            SELECT * FROM VISITORS;`
           
       )
        console.log(query.rows)
        console.log('successfully')
+        return query.rows;
 
     }catch(e) {
         console.log(e);
@@ -69,31 +74,37 @@ const listVisitor = async () => {
     };
 };
 
-const deleteVisitor = async () => {
+const deleteVisitor = async (id) => {
     try{
        const query = await pool.query(
           `
-          DELETE  FROM VISITORS WHERE id = ${1}
+          DELETE  FROM VISITORS WHERE id = ${id}
           ;`
       )
+
        console.log(query)
        console.log('deleted successfully')
 
+       return query;
+
     }catch(e) {
         console.log(e);
 
     };
 };
 
-const updateVisitor = async (name,assistant) => {
+const updateVisitor = async (name,age,date,time,assistant,comment,id) => {
     try{
        const query = await pool.query(
           `
-            UPDATE  VISITORS SET visitor_name= 'sihle', assistant_name ='porticia' WHERE ID=${2}
-          ;`
+          UPDATE VISITORS SET visitor_name = ${name}, visitors_age = ${age},assistant_name = ${assistant} ,date_of_visit = ${date}, time_of_visit = ${time}, comments = ${comment} WHERE id = ${id} 
+          ;`,
+
+          [name,age,date,time,assistant,comment,id]  
       )
-       console.log(query.rows)
+       console.log(query.rows[0])
        console.log('updated successfully')
+       return query.rows[0];
 
     }catch(e) {
         console.log(e);
@@ -102,15 +113,18 @@ const updateVisitor = async (name,assistant) => {
 };
 
 
-const viewVisitor = async () => {
+const viewVisitor = async (id) => {
     try{
        const query = await pool.query(
           `
-            SELECT * FROM VISITORS WHERE ID=${3}
+            SELECT * FROM VISITORS WHERE ID=${id}
           ;`
       )
-       console.log(query.rows)
-       console.log('viewed successfully')
+
+       console.log(query.rows[0])
+       console.log('viewed successfully') 
+
+       return query.rows[0];
 
     }catch(e) {
         console.log(e);
@@ -127,6 +141,7 @@ const deleteAllVisitors = async () => {
       )
        console.log(query)
        console.log('all deleted successfully')
+       return query.rows;
 
     }catch(e) {
         console.log(e);
@@ -135,12 +150,13 @@ const deleteAllVisitors = async () => {
 };
 
 
-createTable();
+//createTable();
 module.exports = {
     addNewVisitor, 
     createTable,
     deleteAllVisitors,
     viewVisitor,
     updateVisitor,
-    deleteVisitor
+    deleteVisitor,
+    listVisitor
     };
