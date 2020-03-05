@@ -18,7 +18,7 @@ app.post('/addNewVisitor', async(req, res) => {
      const date_of_visit =req.body.date;
      const comments =req.body.comment;
      const newVisitor = await  addNewVisitor(visitor, visitors_age, date_of_visit, time_of_visit, assistant_name,comments);
-            //console.log(newVisitor);
+            
             
     res.send(JSON.stringify(newVisitor));    
     res.end();
@@ -50,7 +50,7 @@ app.get('/viewVisitor/:id', async(req, res) =>{
 
 
 
-    app.get('/viewAllVisitors', async(req, res) =>{
+    app.get('/viewAllVisitors', async(req, res, ) =>{
 
     const allVisitors = await listVisitor()
 
@@ -74,9 +74,6 @@ app.put('/updateVisitor/:id', async (req, res) =>{
     res.end();
 
 })
-
-
-
 
 const server = app.listen(3000, () => {
     console.log('app is listening to port http://localhost:3000')
