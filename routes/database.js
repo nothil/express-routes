@@ -45,8 +45,7 @@ const addNewVisitor = async (name, age, date, time, assistant, comment) => {
             [name,age,date,time,assistant,comment]       
       )
 
-      
-
+    
        console.log(query.rows)
        console.log('data saved')
        return query.rows;
@@ -150,7 +149,6 @@ const deleteAllVisitors = async () => {
 };
 
 
-//createTable();
 module.exports = {
     addNewVisitor, 
     createTable,
